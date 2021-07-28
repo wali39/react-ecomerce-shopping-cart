@@ -1,0 +1,7 @@
+.totalCard {
+  max-width: 300px;
+  padding: 10px 20px;
+  border: 2px solid gray;
+  border-radius: 5px;
+  margin-left: 20px;
+}
