@@ -1,11 +1,15 @@
 import { Row, Col, Image, Button, Space } from "antd";
-import { ArrowLeftOutlined } from "@ant-design/icons";
+import { ArrowLeftOutlined, ArrowRightOutlined } from "@ant-design/icons";
 import ButtonGroup from "antd/lib/button/button-group";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { priceformat } from "../../utils/PriceFormat";
 import styles from "../Container.module.css";
 import { Link } from "react-router-dom";
+import { CartContext } from "../../context/CartContext";
 const ProductDetailsCard = ({ product }) => {
+  const { handleProductAdd, cartProducts } = useContext(CartContext);
+  const duplicate = cartProducts.filter((p) => p.id == product.id);
+
   const [imageSrc, setImageSrc] = useState(product.photo);
   const handleImage = (imageSrc) => {
     setImageSrc(imageSrc);
@@ -63,9 +67,22 @@ const ProductDetailsCard = ({ product }) => {
             <Button danger> - </Button>
           </ButtonGroup>
 
-          <Button size="large" danger>
-            ADD to Cart
-          </Button>
+          {!duplicate.length ? (
+            <Button
+              size="large"
+              danger
+              onClick={() => handleProductAdd(product)}
+            >
+              ADD to Cart
+            </Button>
+          ) : (
+            <Link to="/cart">
+              <Button type="primary" size="large">
+                <ArrowRightOutlined />
+                visit cart
+              </Button>
+            </Link>
+          )}
           <Link to="/">
             <Button type="primary">
               <ArrowLeftOutlined />
